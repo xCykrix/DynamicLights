@@ -1,0 +1,4 @@
+name: DynamicLights
+version: '${project.version}'
+main: com.github.xcykrix.dynamiclights.DynamicLights
+api-version: "1.20"
