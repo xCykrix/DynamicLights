@@ -76,9 +76,11 @@ public class LightManager extends Stateful implements Reload {
 
                 // Add Light Sources
                 if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
-                    if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
-                        this.addLight(targetPlayer, nextLocation, lightLevel);
-                        this.setLastLocation(locationId, nextLocation);
+                    if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
+                        if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
+                            this.addLight(targetPlayer, nextLocation, lightLevel);
+                            this.setLastLocation(locationId, nextLocation);
+                        }
                     }
                 }
 
@@ -104,7 +106,7 @@ public class LightManager extends Stateful implements Reload {
         Light light = (Light) Material.LIGHT.createBlockData();
         World world = location.getWorld();
         switch (world.getBlockAt(location).getType()) {
-            case AIR -> {
+            case AIR, CAVE_AIR -> {
                 light.setWaterlogged(false);
                 light.setLevel(lightLevel);
             }
@@ -128,7 +130,7 @@ public class LightManager extends Stateful implements Reload {
         if (!hasLightLevel) return false;
 
         Block currentLocation = player.getEyeLocation().getBlock();
-        if (currentLocation.getType() == Material.AIR) return true;
+        if (currentLocation.getType() == Material.AIR || currentLocation.getType() == Material.CAVE_AIR) return true;
         if (currentLocation instanceof Waterlogged && ((Waterlogged) currentLocation).isWaterlogged()) {
             return false;
         }
@@ -152,6 +154,7 @@ public class LightManager extends Stateful implements Reload {
 
     private boolean differentLocations(Location l1, Location l2) {
         if (l1 == null || l2 == null) return true;
+        if (!l1.getWorld().getName().equals(l2.getWorld().getName())) return true;
         return l1.getBlockX() != l2.getBlockX() || l1.getBlockY() != l2.getBlockY() || l1.getBlockZ() != l2.getBlockZ();
     }
 }
