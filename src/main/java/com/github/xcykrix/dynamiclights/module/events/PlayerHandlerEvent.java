@@ -14,8 +14,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import java.util.HashSet;
-
 public class PlayerHandlerEvent extends Stateful implements Listener {
     private final LightManager lightManager;
 

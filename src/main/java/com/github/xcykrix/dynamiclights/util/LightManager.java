@@ -27,6 +27,7 @@ public class LightManager extends Stateful implements Reload {
     public final MVMap<String, Boolean> lightLockStatus;
 
     // Configuration
+    private long refresh = 5L;
     private int distance = 64;
 
     public LightManager(PluginCommon pluginCommon, LightSources lightSources) {
@@ -36,10 +37,8 @@ public class LightManager extends Stateful implements Reload {
         this.reload();
     }
 
-    /**
-     * Reloadable. Called during instantiation or by a reload command independently.
-     */
     public void reload() {
+        this.refresh = this.pluginCommon.configurationAPI.get("config.yml").getLong("update-rate");
         this.distance = this.pluginCommon.configurationAPI.get("config.yml").getInt("light-culling-distance");
     }
 
@@ -89,7 +88,7 @@ public class LightManager extends Stateful implements Reload {
                     this.removeLight(targetPlayer, lastLocation);
                 }
             }
-        }, 100L, 5L));
+        }, 100L, refresh));
     }
 
     public void removePlayer(UUID uid) {
