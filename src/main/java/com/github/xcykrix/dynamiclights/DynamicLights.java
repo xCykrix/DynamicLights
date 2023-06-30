@@ -8,14 +8,17 @@ import com.github.xcykrix.plugincommon.api.records.Resource;
 import org.bukkit.entity.Player;
 
 public final class DynamicLights extends PluginCommon {
+    private LightManager lightManager;
 
     @Override
     public void initialize() {
         // Register Configurations
-        this.configurationAPI.register(new Resource("config.yml", null, this.getResource("config.yml")));
+        this.configurationAPI
+            .register(new Resource("config.yml", null, this.getResource("config.yml")))
+            .registerLanguageFile(this.getResource("language.yml"));
 
         // Initialize Light Manager
-        LightManager lightManager = new LightManager(this, new LightSources(this));
+        this.lightManager = new LightManager(this, new LightSources(this));
 
         // Register Commands
         this.commandAPI.register(new DynamicLightCommand(this, lightManager));
@@ -28,5 +31,8 @@ public final class DynamicLights extends PluginCommon {
 
     @Override
     public void shutdown() {
+        if (this.lightManager != null) {
+            this.lightManager.shutdown();
+        }
     }
 }

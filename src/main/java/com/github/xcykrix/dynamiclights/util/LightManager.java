@@ -1,8 +1,8 @@
 package com.github.xcykrix.dynamiclights.util;
 
 import com.github.xcykrix.plugincommon.PluginCommon;
-import com.github.xcykrix.plugincommon.extendables.Reload;
 import com.github.xcykrix.plugincommon.extendables.Stateful;
+import com.github.xcykrix.plugincommon.extendables.implement.Shutdown;
 import com.shaded._100.org.h2.mvstore.MVMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class LightManager extends Stateful implements Reload {
+public class LightManager extends Stateful implements Shutdown {
     public final LightSources lightSources;
     private final HashMap<String, Location> lastLightLocation = new HashMap<>();
     private final HashMap<UUID, BukkitTask> tasks = new HashMap<>();
@@ -34,12 +34,17 @@ public class LightManager extends Stateful implements Reload {
         super(pluginCommon);
         this.lightLockStatus = this.pluginCommon.h2MVStoreAPI.getStore().openMap("lightLockStatus");
         this.lightSources = lightSources;
-        this.reload();
-    }
 
-    public void reload() {
         this.refresh = this.pluginCommon.configurationAPI.get("config.yml").getLong("update-rate");
         this.distance = this.pluginCommon.configurationAPI.get("config.yml").getInt("light-culling-distance");
+    }
+
+    @Override
+    public void shutdown() {
+        for (UUID uuid : this.tasks.keySet()) {
+            this.tasks.get(uuid).cancel();
+            this.tasks.remove(uuid);
+        }
     }
 
     public void addPlayer(Player player) {

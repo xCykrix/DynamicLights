@@ -2,10 +2,8 @@ package com.github.xcykrix.dynamiclights.module.events;
 
 import com.github.xcykrix.dynamiclights.util.LightManager;
 import com.github.xcykrix.plugincommon.PluginCommon;
+import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
 import com.github.xcykrix.plugincommon.extendables.Stateful;
-import com.shaded._100.net.kyori.adventure.text.Component;
-import com.shaded._100.net.kyori.adventure.text.format.TextColor;
-import com.shaded._100.net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,10 +14,12 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerHandlerEvent extends Stateful implements Listener {
     private final LightManager lightManager;
+    private final LanguageFile languageFile;
 
     public PlayerHandlerEvent(PluginCommon pluginCommon, LightManager lightManager) {
         super(pluginCommon);
         this.lightManager = lightManager;
+        this.languageFile = this.pluginCommon.configurationAPI.getLanguageFile();
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -30,9 +30,10 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
 
         if (event.getHand() == EquipmentSlot.OFF_HAND) {
             if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType())) return;
-            boolean status = this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(), true);
-            if (status) {
-                pluginCommon.adventureAPI.getAudiences().player(event.getPlayer()).sendMessage(Component.text("You must sneak to place light sources while lock mode is enabled. Type \"/dl lock\" to toggle.").color(TextColor.fromHexString("#AAAAAA")).decoration(TextDecoration.ITALIC, true));
+            if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(), true)) {
+                pluginCommon.adventureAPI.getAudiences().player(event.getPlayer()).sendMessage(
+                    this.languageFile.getComponentFromID("enable-lock", true)
+                );
                 event.setCancelled(true);
             }
         }

@@ -10,3 +10,8 @@ load: 'POSTWORLD'
 
 depend:
     - 'ProtocolLib'
+
+permissions:
+    dynamiclights.lock:
+        description: "Toggle placing light sources from your off hand."
+        default: true
