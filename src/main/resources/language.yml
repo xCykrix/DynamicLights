@@ -9,14 +9,16 @@
 # Realtime Editor: https://webui.advntr.dev/
 ###
 
-# Plugin Prefix
+###
+# Used as the Plugin's Chat and Console Prefix. Available in all "language." components as "<prefix>".
+###
 chat-prefix: "<dark_gray>[</dark_gray><gold>DynamicLights</gold><dark_gray>]</dark_gray>"
 
 # Language Index
 language:
-    prevent-block-place: "Light locking mode is currently enabled. You must sneak to place light sources from your Off Hand. This can be toggled with \"/dl lock\"."
-    enable-lock: "Enabled light locking mode for Off Hand."
-    disable-lock: "Disabled light lock mode for Off Hand."
+    prevent-block-place: "<prefix> <gray>Light locking mode is currently enabled. You must sneak to place light sources from your Off Hand. This can be toggled with \"/dl lock\".</gray>"
+    enable-lock: "<prefix> <gray>Enabled light lock mode.</gray>"
+    disable-lock: "<prefix> <gray>Disabled light lock mode.</gray>"
 
 # DO NOT EDIT THE VERSION. Manual edits may corrupt or reset configuration files.
 #

@@ -32,7 +32,7 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
             if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType())) return;
             if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(), true)) {
                 pluginCommon.adventureAPI.getAudiences().player(event.getPlayer()).sendMessage(
-                    this.languageFile.getComponentFromID("enable-lock", true)
+                    this.languageFile.getComponentFromID("prevent-block-place", true)
                 );
                 event.setCancelled(true);
             }
