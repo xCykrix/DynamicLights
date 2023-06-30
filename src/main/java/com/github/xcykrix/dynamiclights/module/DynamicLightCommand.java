@@ -6,7 +6,6 @@ import com.github.xcykrix.dynamiclights.util.LightManager;
 import com.github.xcykrix.plugincommon.PluginCommon;
 import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
 import com.github.xcykrix.plugincommon.extendables.implement.Initialize;
-import com.github.xcykrix.plugincommon.extendables.implement.LateLoad;
 import com.shaded._100.aikar.commands.BaseCommand;
 import com.shaded._100.aikar.commands.CommandHelp;
 import com.shaded._100.aikar.commands.annotation.*;

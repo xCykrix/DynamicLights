@@ -1,6 +1,5 @@
 package com.github.xcykrix.dynamiclights.util;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.utility.MinecraftVersion;
 import com.github.xcykrix.plugincommon.PluginCommon;
 import com.github.xcykrix.plugincommon.extendables.Stateful;
