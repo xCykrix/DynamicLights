@@ -108,6 +108,7 @@ public class LightManager extends Stateful implements Shutdown {
     public void addLight(Player player, Location location, int lightLevel) {
         if (lightLevel == 0) return;
         Light light = (Light) Material.LIGHT.createBlockData();
+        if (location.getWorld() == null) location.setWorld(player.getWorld());
         World world = location.getWorld();
         switch (world.getBlockAt(location).getType()) {
             case AIR, CAVE_AIR -> {
@@ -123,6 +124,7 @@ public class LightManager extends Stateful implements Shutdown {
     }
 
     public void removeLight(Player player, Location location) {
+        if (location.getWorld() == null) location.setWorld(player.getWorld());
         player.sendBlockChange(location, location.getWorld().getBlockAt(location).getBlockData());
     }
 
@@ -158,6 +160,7 @@ public class LightManager extends Stateful implements Shutdown {
 
     private boolean differentLocations(Location l1, Location l2) {
         if (l1 == null || l2 == null) return true;
+        if (l1.getWorld() == null || l2.getWorld() == null) return true;
         if (!l1.getWorld().getName().equals(l2.getWorld().getName())) return true;
         return l1.getBlockX() != l2.getBlockX() || l1.getBlockY() != l2.getBlockY() || l1.getBlockZ() != l2.getBlockZ();
     }
