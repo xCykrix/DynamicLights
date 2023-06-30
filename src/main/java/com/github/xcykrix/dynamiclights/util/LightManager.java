@@ -93,7 +93,7 @@ public class LightManager extends Stateful implements Shutdown {
                     this.removeLight(targetPlayer, lastLocation);
                 }
             }
-        }, 100L, refresh));
+        }, 50L, refresh));
     }
 
     public void removePlayer(UUID uid) {
