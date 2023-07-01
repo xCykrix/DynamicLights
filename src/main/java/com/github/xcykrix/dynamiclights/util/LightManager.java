@@ -41,59 +41,63 @@ public class LightManager extends Stateful implements Shutdown {
 
     @Override
     public void shutdown() {
-        for (UUID uuid : this.tasks.keySet()) {
-            this.tasks.get(uuid).cancel();
-            this.tasks.remove(uuid);
+        synchronized (this.tasks) {
+            for (UUID uuid : this.tasks.keySet()) {
+                this.tasks.get(uuid).cancel();
+            }
+            this.tasks.clear();
         }
     }
 
     public void addPlayer(Player player) {
-        if (this.tasks.containsKey(player.getUniqueId())) return;
-        this.tasks.put(player.getUniqueId(), this.pluginCommon.getServer().getScheduler().runTaskTimerAsynchronously(this.pluginCommon, () -> {
-            ItemStack mainHand = player.getInventory().getItemInMainHand();
-            ItemStack offHand = player.getInventory().getItemInOffHand();
+        synchronized (this.tasks) {
+            if (this.tasks.containsKey(player.getUniqueId())) return;
+            this.tasks.put(player.getUniqueId(), this.pluginCommon.getServer().getScheduler().runTaskTimerAsynchronously(this.pluginCommon, () -> {
+                ItemStack mainHand = player.getInventory().getItemInMainHand();
+                ItemStack offHand = player.getInventory().getItemInOffHand();
 
-            // Check Light Source Validity
-            boolean valid = this.valid(player, mainHand, offHand);
-            int lightLevel = 0;
-            if (valid) {
-                lightLevel = lightSources.getLightLevel(offHand.getType(), mainHand.getType());
-            }
-
-            // Deploy Lighting
-            for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
-                // Pull Last Location
-                String locationId = player.getUniqueId() + "/" + targetPlayer.getUniqueId();
-                Location lastLocation = this.getLastLocation(locationId);
-
-                // Test and Remove Old Lights
-                if (!valid) {
-                    if (lastLocation != null) {
-                        this.removeLight(targetPlayer, lastLocation);
-                        this.removeLastLocation(locationId);
-                    }
-                    continue;
+                // Check Light Source Validity
+                boolean valid = this.valid(player, mainHand, offHand);
+                int lightLevel = 0;
+                if (valid) {
+                    lightLevel = lightSources.getLightLevel(offHand.getType(), mainHand.getType());
                 }
 
-                // Get the Next Location
-                Location nextLocation = player.getEyeLocation();
+                // Deploy Lighting
+                for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
+                    // Pull Last Location
+                    String locationId = player.getUniqueId() + "/" + targetPlayer.getUniqueId();
+                    Location lastLocation = this.getLastLocation(locationId);
 
-                // Add Light Sources
-                if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
-                    if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
-                        if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
-                            this.addLight(targetPlayer, nextLocation, lightLevel);
-                            this.setLastLocation(locationId, nextLocation);
+                    // Test and Remove Old Lights
+                    if (!valid) {
+                        if (lastLocation != null) {
+                            this.removeLight(targetPlayer, lastLocation);
+                            this.removeLastLocation(locationId);
+                        }
+                        continue;
+                    }
+
+                    // Get the Next Location
+                    Location nextLocation = player.getEyeLocation();
+
+                    // Add Light Sources
+                    if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
+                        if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
+                            if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
+                                this.addLight(targetPlayer, nextLocation, lightLevel);
+                                this.setLastLocation(locationId, nextLocation);
+                            }
                         }
                     }
-                }
 
-                // Remove Last Locations
-                if (lastLocation != null && differentLocations(lastLocation, nextLocation)) {
-                    this.removeLight(targetPlayer, lastLocation);
+                    // Remove Last Locations
+                    if (lastLocation != null && differentLocations(lastLocation, nextLocation)) {
+                        this.removeLight(targetPlayer, lastLocation);
+                    }
                 }
-            }
-        }, 50L, refresh));
+            }, 50L, refresh));
+        }
     }
 
     public void removePlayer(UUID uid) {
