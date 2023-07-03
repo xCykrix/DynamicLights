@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Official Support
+      url: mailto:samuel.voeller@amethyst.live
+      about: For support, security concerns or violations of Code of Conduct.
+    - name: Security Reports
+      url: mailto:report@amethyst.live
+    - name: Community Live-Chat
+      url: https://discord.gg/5Z4FXY7
+      about: Need faster help or have a small question? Join us on Discord! Get official and community support fast and effectively.
