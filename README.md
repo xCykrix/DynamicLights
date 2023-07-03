@@ -15,7 +15,7 @@ Commands
 
 #### How does this plugin work?
 
-DynamicLights works by creating a thread for each player and rendering a [Light Block](https://minecraft.fandom.com/wiki/Light_Block) at their head location for all online players asyncrounously.
+DynamicLights works by creating a thread for each player and rendering a [Light Block](https://minecraft.fandom.com/wiki/Light_Block) at their head location for all online players asynchronously.
 
 At the player's head location, DynamicLights will send a block change packet to all players within the culling range. DynamicLights does NOT modify the world.
 
