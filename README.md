@@ -8,7 +8,7 @@ Emit Light from Held Items using the 1.17 Light Blocks in Spigot/Paper Servers.
 
 Commands
 - /dynamiclights lock (dynamiclights.lock)
-  - Prevents placing Lanterns and Torches from the off hand. Useful for held lights while exploring or eating.
+  - Prevents placing Lanterns and Torches from the offhand. Useful for held lights while exploring or eating.
 
 
 ## FAQ
@@ -18,6 +18,10 @@ Commands
 DynamicLights works by creating a thread for each player and rendering a [Light Block](https://minecraft.fandom.com/wiki/Light_Block) at their head location for all online players asyncrounously.
 
 At the player's head location, DynamicLights will send a block change packet to all players within the culling range. DynamicLights does NOT modify the world.
+
+#### Can I change which items glow and work underwater?
+
+Yes! In the "lights.yml" file you can add any item from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html exactly as it appears to set custom light levels. You can also make them work underwater!
 
 #### Lights flickers in Blocks like Tall Grass, Sea Grass, and Kelp. Why?
 
