@@ -1,12 +1,14 @@
 package com.github.xcykrix.dynamiclights.util;
 
-import com.comphenix.protocol.utility.MinecraftVersion;
 import com.github.xcykrix.plugincommon.PluginCommon;
 import com.github.xcykrix.plugincommon.extendables.Stateful;
+import com.shaded._100.dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class LightSources extends Stateful {
     private final HashMap<Material, Integer> levelOfLights = new HashMap<>();
@@ -15,50 +17,41 @@ public class LightSources extends Stateful {
 
     public LightSources(PluginCommon pluginCommon) {
         super(pluginCommon);
+        YamlDocument lights = this.pluginCommon.configurationAPI.get("lights.yml");
 
-        // Add 1.19 Lights
-        if (this.pluginCommon.protocolLibAPI.getProtocolManager().getMinecraftVersion().isAtLeast(MinecraftVersion.WILD_UPDATE)) {
-            // Light Sources
-            levelOfLights.put(Material.OCHRE_FROGLIGHT, 15);
-            levelOfLights.put(Material.PEARLESCENT_FROGLIGHT, 15);
-            levelOfLights.put(Material.VERDANT_FROGLIGHT, 15);
-
-            // Underwater Allowed
-            submersibleLights.add(Material.OCHRE_FROGLIGHT);
-            submersibleLights.add(Material.PEARLESCENT_FROGLIGHT);
-            submersibleLights.add(Material.VERDANT_FROGLIGHT);
+        // Load Light Levels
+        Map<String, Object> levels = lights.getSection("levels").getStringRouteMappedValues(false);
+        for (String material : levels.keySet()) {
+            try {
+                int level = Integer.parseInt(levels.get(material).toString());
+                this.levelOfLights.put(Material.valueOf(material), level);
+            } catch(Exception exception) {
+                this.pluginCommon.getLogger().warning("Unable to register level for '" + material  + "'. " + exception.getMessage());
+            }
         }
+        this.pluginCommon.getLogger().info("Registered " + this.levelOfLights.size() + " items for Dynamic Lights.");
 
-        // Intense Light Sources
-        levelOfLights.put(Material.BEACON, 15);
+        // Load Submersible Status
+        List<String> submersibles = lights.getStringList("submersibles");
+        for (String material : submersibles) {
+            try {
+                this.submersibleLights.add(Material.valueOf(material));
+            } catch(Exception exception) {
+                this.pluginCommon.getLogger().warning("Unable to register submersible for '" + material + "'. " + exception.getMessage());
+            }
+        }
+        this.pluginCommon.getLogger().info("Registered " + this.submersibleLights.size() + " items for Dynamic Submersible Lights.");
 
-        levelOfLights.put(Material.GLOWSTONE, 15);
-        levelOfLights.put(Material.JACK_O_LANTERN, 15);
-        levelOfLights.put(Material.LAVA_BUCKET, 15);
-        levelOfLights.put(Material.SEA_LANTERN, 15);
-        levelOfLights.put(Material.SHROOMLIGHT, 15);
-
-        // Lanterns
-        levelOfLights.put(Material.LANTERN, 13);
-        levelOfLights.put(Material.SOUL_LANTERN, 13);
-
-        // Torches
-        levelOfLights.put(Material.TORCH, 11);
-        levelOfLights.put(Material.SOUL_TORCH, 11);
-        levelOfLights.put(Material.REDSTONE_TORCH, 7);
-
-        // Underwater Allowed
-        submersibleLights.add(Material.BEACON);
-        submersibleLights.add(Material.GLOWSTONE);
-        submersibleLights.add(Material.SEA_LANTERN);
-        submersibleLights.add(Material.SHROOMLIGHT);
-
-        // Protected Lights
-        protectedLights.add(Material.LANTERN);
-        protectedLights.add(Material.SOUL_LANTERN);
-        protectedLights.add(Material.TORCH);
-        protectedLights.add(Material.SOUL_TORCH);
-
+        // Load Lockable Status
+        List<String> lockables = lights.getStringList("lockables");
+        for (String material : lockables) {
+            try {
+                this.protectedLights.add(Material.valueOf(material));
+            } catch(Exception exception) {
+                this.pluginCommon.getLogger().warning("Unable to register lockable for '" + material + "'. " + exception.getMessage());
+            }
+        }
+        this.pluginCommon.getLogger().info("Registered " + this.protectedLights.size() + " items for Dynamic Lockable Lights.");
     }
 
     public boolean hasLightLevel(Material material) {
