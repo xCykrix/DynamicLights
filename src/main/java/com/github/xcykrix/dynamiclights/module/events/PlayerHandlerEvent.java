@@ -15,11 +15,13 @@ import org.bukkit.inventory.EquipmentSlot;
 public class PlayerHandlerEvent extends Stateful implements Listener {
     private final LightManager lightManager;
     private final LanguageFile languageFile;
+    private final boolean defaultState;
 
     public PlayerHandlerEvent(PluginCommon pluginCommon, LightManager lightManager) {
         super(pluginCommon);
         this.lightManager = lightManager;
         this.languageFile = this.pluginCommon.configurationAPI.getLanguageFile();
+        this.defaultState = this.pluginCommon.configurationAPI.get("config.yml").getOptionalBoolean("default-lock-state").orElse(false);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -30,7 +32,7 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
 
         if (event.getHand() == EquipmentSlot.OFF_HAND) {
             if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType())) return;
-            if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(), true)) {
+            if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(), defaultState)) {
                 pluginCommon.adventureAPI.getAudiences().player(event.getPlayer()).sendMessage(
                     this.languageFile.getComponentFromID("prevent-block-place", true)
                 );
