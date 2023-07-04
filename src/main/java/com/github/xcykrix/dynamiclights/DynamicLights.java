@@ -1,5 +1,6 @@
 package com.github.xcykrix.dynamiclights;
 
+import com.comphenix.protocol.utility.MinecraftVersion;
 import com.github.xcykrix.dynamiclights.module.DynamicLightCommand;
 import com.github.xcykrix.dynamiclights.util.LightManager;
 import com.github.xcykrix.dynamiclights.util.LightSources;
@@ -12,6 +13,9 @@ public final class DynamicLights extends PluginCommon {
 
     @Override
     public void initialize() {
+        // Set Earliest Supported Version
+        this.setEarliestSupportedVersion(MinecraftVersion.CAVES_CLIFFS_2);
+
         // Register Configurations
         this.configurationAPI
             .register(new Resource("config.yml", null, this.getResource("config.yml")))
