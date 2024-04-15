@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class LightManager extends Stateful implements Shutdown {
-    public final LightSources lightSources;
+    public LightSources lightSources;
     private final HashMap<String, Location> lastLightLocation = new HashMap<>();
     private final HashMap<UUID, BukkitTask> tasks = new HashMap<>();
 
@@ -47,6 +47,10 @@ public class LightManager extends Stateful implements Shutdown {
             }
             this.tasks.clear();
         }
+    }
+
+    public void updateLightSources(LightSources lightSources) {
+        this.lightSources = lightSources;
     }
 
     public void addPlayer(Player player) {
@@ -122,6 +126,9 @@ public class LightManager extends Stateful implements Shutdown {
             case WATER -> {
                 light.setWaterlogged(true);
                 light.setLevel(lightLevel - 2);
+            }
+            default -> {
+                // NO OP
             }
         }
         player.sendBlockChange(location, light);
