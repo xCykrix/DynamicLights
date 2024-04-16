@@ -63,12 +63,14 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
     @Description("Reload the light level configuration file. Changes to config.yml require a Server Reboot.")
     public void reload(Player player) {
         try {
-            this.pluginCommon.configurationAPI.get("lights.yml").reload();
+            boolean r = this.pluginCommon.configurationAPI.get("lights.yml").reload();
+            player.sendMessage(r + "");
             this.lightManager.updateLightSources(new LightSources(this.pluginCommon));
-        } catch (IOException e) {
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
                 this.languageFile.getComponentFromID("reload", true)
             );
+        } catch (IOException e) {
+
         }
     }
 
