@@ -24,19 +24,23 @@ public class LightManager extends Stateful implements Shutdown {
     private final HashMap<UUID, BukkitTask> tasks = new HashMap<>();
 
     // Local Database Map
+    public final MVMap<String, Boolean> lightToggleStatus;
     public final MVMap<String, Boolean> lightLockStatus;
 
     // Configuration
     private long refresh = 5L;
     private int distance = 64;
+    public boolean toggle = true;
 
     public LightManager(PluginCommon pluginCommon, LightSources lightSources) {
         super(pluginCommon);
+        this.lightToggleStatus = this.pluginCommon.h2MVStoreAPI.getStore().openMap("lightToggleStatus");
         this.lightLockStatus = this.pluginCommon.h2MVStoreAPI.getStore().openMap("lightLockStatus");
         this.lightSources = lightSources;
 
         this.refresh = this.pluginCommon.configurationAPI.get("config.yml").getLong("update-rate");
         this.distance = this.pluginCommon.configurationAPI.get("config.yml").getInt("light-culling-distance");
+        this.toggle = this.pluginCommon.configurationAPI.get("config.yml").getBoolean("default-toggle-state");
     }
 
     @Override
@@ -86,11 +90,15 @@ public class LightManager extends Stateful implements Shutdown {
                     Location nextLocation = player.getEyeLocation();
 
                     // Add Light Sources
-                    if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
-                        if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
-                            if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
-                                this.addLight(targetPlayer, nextLocation, lightLevel);
-                                this.setLastLocation(locationId, nextLocation);
+                    boolean p1 = this.lightToggleStatus.getOrDefault(player.getUniqueId().toString(), this.toggle);
+                    boolean p2 = this.lightToggleStatus.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle);
+                    if (p1 && p2) {
+                        if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
+                            if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
+                                if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
+                                    this.addLight(targetPlayer, nextLocation, lightLevel);
+                                    this.setLastLocation(locationId, nextLocation);
+                                }
                             }
                         }
                     }

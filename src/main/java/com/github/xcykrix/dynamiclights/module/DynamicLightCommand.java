@@ -37,7 +37,18 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
     @CommandPermission("dynamiclights.toggle")
     @Description("Toggle rendering light sources for your client.")
     public void toggle(Player player) {
-
+        boolean status = this.lightManager.lightToggleStatus.getOrDefault(player.getUniqueId().toString(), this.lightManager.toggle);
+        if (!status) {
+            this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
+                this.languageFile.getComponentFromID("toggle-on", true)
+            );
+            this.lightManager.lightToggleStatus.put(player.getUniqueId().toString(), true);
+        } else {
+            this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
+                this.languageFile.getComponentFromID("toggle-off", true)
+            );
+            this.lightManager.lightToggleStatus.put(player.getUniqueId().toString(), false);
+        }
     }
 
     @Subcommand("lock")

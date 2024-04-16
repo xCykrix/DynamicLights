@@ -4,9 +4,12 @@ update-rate: 5
 # Light Culling Distance: Controls how far away you should see another players DynamicLight.
 light-culling-distance: 64
 
+# Default Toggle State: Controls if Dynamic Lighting is enabled by default.
+default-toggle-state: true
+
 # Default Locking State: Controls if player's offhand are automatically locked by default.
 default-lock-state: true
 
 # DO NOT EDIT THE VERSION. Manual edits may corrupt or reset configuration files.
 #
-version: 2
+version: 3
