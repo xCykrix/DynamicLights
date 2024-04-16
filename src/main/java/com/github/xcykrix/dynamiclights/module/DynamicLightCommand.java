@@ -70,7 +70,7 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
     }
 
     @Subcommand("reload")
-    @CommandPermission("dynamiclights.toggle")
+    @CommandPermission("dynamiclights.reload")
     @Description("Reload the light level configuration file. Changes to config.yml require a Server Reboot.")
     public void reload(Player player) {
         try {

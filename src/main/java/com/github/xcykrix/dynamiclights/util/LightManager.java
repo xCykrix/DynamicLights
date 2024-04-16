@@ -90,9 +90,7 @@ public class LightManager extends Stateful implements Shutdown {
                     Location nextLocation = player.getEyeLocation();
 
                     // Add Light Sources
-                    boolean p1 = this.lightToggleStatus.getOrDefault(player.getUniqueId().toString(), this.toggle);
-                    boolean p2 = this.lightToggleStatus.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle);
-                    if (p1 && p2) {
+                    if (this.lightToggleStatus.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle)) {
                         if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
                             if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
                                 if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
