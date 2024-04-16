@@ -19,24 +19,28 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class LightManager extends Stateful implements Shutdown {
-    public final LightSources lightSources;
+    public LightSources lightSources;
     private final HashMap<String, Location> lastLightLocation = new HashMap<>();
     private final HashMap<UUID, BukkitTask> tasks = new HashMap<>();
 
     // Local Database Map
+    public final MVMap<String, Boolean> lightToggleStatus;
     public final MVMap<String, Boolean> lightLockStatus;
 
     // Configuration
     private long refresh = 5L;
     private int distance = 64;
+    public boolean toggle = true;
 
     public LightManager(PluginCommon pluginCommon, LightSources lightSources) {
         super(pluginCommon);
+        this.lightToggleStatus = this.pluginCommon.h2MVStoreAPI.getStore().openMap("lightToggleStatus");
         this.lightLockStatus = this.pluginCommon.h2MVStoreAPI.getStore().openMap("lightLockStatus");
         this.lightSources = lightSources;
 
         this.refresh = this.pluginCommon.configurationAPI.get("config.yml").getLong("update-rate");
         this.distance = this.pluginCommon.configurationAPI.get("config.yml").getInt("light-culling-distance");
+        this.toggle = this.pluginCommon.configurationAPI.get("config.yml").getBoolean("default-toggle-state");
     }
 
     @Override
@@ -47,6 +51,10 @@ public class LightManager extends Stateful implements Shutdown {
             }
             this.tasks.clear();
         }
+    }
+
+    public void updateLightSources(LightSources lightSources) {
+        this.lightSources = lightSources;
     }
 
     public void addPlayer(Player player) {
@@ -82,11 +90,13 @@ public class LightManager extends Stateful implements Shutdown {
                     Location nextLocation = player.getEyeLocation();
 
                     // Add Light Sources
-                    if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
-                        if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
-                            if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
-                                this.addLight(targetPlayer, nextLocation, lightLevel);
-                                this.setLastLocation(locationId, nextLocation);
+                    if (this.lightToggleStatus.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle)) {
+                        if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
+                            if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
+                                if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
+                                    this.addLight(targetPlayer, nextLocation, lightLevel);
+                                    this.setLastLocation(locationId, nextLocation);
+                                }
                             }
                         }
                     }
@@ -122,6 +132,9 @@ public class LightManager extends Stateful implements Shutdown {
             case WATER -> {
                 light.setWaterlogged(true);
                 light.setLevel(lightLevel - 2);
+            }
+            default -> {
+                // NO OP
             }
         }
         player.sendBlockChange(location, light);

@@ -3,6 +3,8 @@ package com.github.xcykrix.dynamiclights.util;
 import com.github.xcykrix.plugincommon.PluginCommon;
 import com.github.xcykrix.plugincommon.extendables.Stateful;
 import com.shaded._100.dev.dejvokep.boostedyaml.YamlDocument;
+import com.shaded._100.dev.dejvokep.boostedyaml.block.Block;
+
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -20,11 +22,11 @@ public class LightSources extends Stateful {
         YamlDocument lights = this.pluginCommon.configurationAPI.get("lights.yml");
 
         // Load Light Levels
-        Map<String, Object> levels = lights.getSection("levels").getStringRouteMappedValues(false);
-        for (String material : levels.keySet()) {
+        Map<Object, Block<?>> levels = lights.getSection("levels").getStoredValue();
+        for (Object material : levels.keySet()) {
             try {
-                int level = Integer.parseInt(levels.get(material).toString());
-                this.levelOfLights.put(Material.valueOf(material), level);
+                int level = Integer.parseInt(levels.get(material).getStoredValue().toString());
+                this.levelOfLights.put(Material.valueOf((String)material), level);
             } catch(Exception exception) {
                 this.pluginCommon.getLogger().warning("Unable to register level for '" + material  + "'. " + exception.getMessage());
             }
