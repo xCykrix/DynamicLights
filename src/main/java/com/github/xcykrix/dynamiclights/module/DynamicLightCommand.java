@@ -13,6 +13,7 @@ import com.shaded._100.aikar.commands.annotation.*;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -74,14 +75,17 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
     @Description("Reload the light level configuration file. Changes to config.yml require a Server Reboot.")
     public void reload(Player player) {
         try {
-            boolean r = this.pluginCommon.configurationAPI.get("lights.yml").reload();
-            player.sendMessage(r + "");
+            this.pluginCommon.configurationAPI.get("lights.yml").reload();
             this.lightManager.updateLightSources(new LightSources(this.pluginCommon));
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
                 this.languageFile.getComponentFromID("reload", true)
             );
         } catch (IOException e) {
-
+            this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
+                this.languageFile.getComponentFromID("reload-error", true)
+            );
+            this.pluginCommon.getLogger().severe("Failed to reload lights.yml configuration.");
+            this.pluginCommon.getLogger().severe(ExceptionUtils.getStackTrace(e));
         }
     }
 
