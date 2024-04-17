@@ -1,16 +1,16 @@
 package com.github.xcykrix.dynamiclights.util;
 
-import com.github.xcykrix.plugincommon.PluginCommon;
-import com.github.xcykrix.plugincommon.extendables.Stateful;
-import com.shaded._100.dev.dejvokep.boostedyaml.YamlDocument;
-import com.shaded._100.dev.dejvokep.boostedyaml.block.Block;
-
-import org.bukkit.Material;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.Material;
+
+import com.github.xcykrix.plugincommon.PluginCommon;
+import com.github.xcykrix.plugincommon.extendables.Stateful;
+import com.shaded._100.dev.dejvokep.boostedyaml.YamlDocument;
+import com.shaded._100.dev.dejvokep.boostedyaml.block.Block;
 
 public class LightSources extends Stateful {
     private final HashMap<Material, Integer> levelOfLights = new HashMap<>();

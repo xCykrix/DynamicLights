@@ -1,5 +1,11 @@
 package com.github.xcykrix.dynamiclights.module;
 
+import java.io.IOException;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import com.github.xcykrix.dynamiclights.module.events.PlayerHandlerEvent;
 import com.github.xcykrix.dynamiclights.util.LightManager;
 import com.github.xcykrix.dynamiclights.util.LightSources;
@@ -8,13 +14,11 @@ import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
 import com.github.xcykrix.plugincommon.extendables.implement.Initialize;
 import com.shaded._100.aikar.commands.BaseCommand;
 import com.shaded._100.aikar.commands.CommandHelp;
-import com.shaded._100.aikar.commands.annotation.*;
-
-import java.io.IOException;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import com.shaded._100.aikar.commands.annotation.CommandAlias;
+import com.shaded._100.aikar.commands.annotation.CommandPermission;
+import com.shaded._100.aikar.commands.annotation.Description;
+import com.shaded._100.aikar.commands.annotation.HelpCommand;
+import com.shaded._100.aikar.commands.annotation.Subcommand;
 
 @CommandAlias("dynamiclights|dynamiclight|dl")
 public class DynamicLightCommand extends BaseCommand implements Initialize {

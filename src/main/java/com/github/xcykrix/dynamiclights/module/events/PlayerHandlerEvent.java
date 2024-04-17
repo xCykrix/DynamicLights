@@ -1,9 +1,5 @@
 package com.github.xcykrix.dynamiclights.module.events;
 
-import com.github.xcykrix.dynamiclights.util.LightManager;
-import com.github.xcykrix.plugincommon.PluginCommon;
-import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
-import com.github.xcykrix.plugincommon.extendables.Stateful;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,6 +7,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
+
+import com.github.xcykrix.dynamiclights.util.LightManager;
+import com.github.xcykrix.plugincommon.PluginCommon;
+import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
+import com.github.xcykrix.plugincommon.extendables.Stateful;
 
 public class PlayerHandlerEvent extends Stateful implements Listener {
     private final LightManager lightManager;

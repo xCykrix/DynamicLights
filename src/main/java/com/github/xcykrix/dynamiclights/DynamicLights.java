@@ -1,12 +1,13 @@
 package com.github.xcykrix.dynamiclights;
 
+import org.bukkit.entity.Player;
+
 import com.comphenix.protocol.utility.MinecraftVersion;
 import com.github.xcykrix.dynamiclights.module.DynamicLightCommand;
 import com.github.xcykrix.dynamiclights.util.LightManager;
 import com.github.xcykrix.dynamiclights.util.LightSources;
 import com.github.xcykrix.plugincommon.PluginCommon;
 import com.github.xcykrix.plugincommon.api.records.Resource;
-import org.bukkit.entity.Player;
 
 public final class DynamicLights extends PluginCommon {
     private LightManager lightManager;

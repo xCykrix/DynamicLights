@@ -1,9 +1,8 @@
 package com.github.xcykrix.dynamiclights.util;
 
-import com.github.xcykrix.plugincommon.PluginCommon;
-import com.github.xcykrix.plugincommon.extendables.Stateful;
-import com.github.xcykrix.plugincommon.extendables.implement.Shutdown;
-import com.shaded._100.org.h2.mvstore.MVMap;
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashMap;
-import java.util.UUID;
+import com.github.xcykrix.plugincommon.PluginCommon;
+import com.github.xcykrix.plugincommon.extendables.Stateful;
+import com.github.xcykrix.plugincommon.extendables.implement.Shutdown;
+import com.shaded._100.org.h2.mvstore.MVMap;
 
 public class LightManager extends Stateful implements Shutdown {
     public LightSources lightSources;
