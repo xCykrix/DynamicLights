@@ -15,3 +15,9 @@ permissions:
     dynamiclights.lock:
         description: "Toggle placing light sources from your off hand."
         default: true
+    dynamiclights.toggle:
+        description: "Toggle rendering of light sources for your client."
+        default: true
+    dynamiclights.reload:
+        description: "Reload the lights.yml configuration file."
+        default: false

@@ -9,6 +9,11 @@ Commands
 - /dynamiclights lock (dynamiclights.lock)
   - Prevents placing Lanterns and Torches from the offhand. Useful for held
     lights while exploring or eating.
+- /dynamiclights toggle (dynamiclights.toggle)
+  - Toggle the rendering of lights for your client to reduce client impact.
+- /dynamiclights reload (dynamiclights.reload)
+  - Dynamically reload the `lights.yml` configuration to add or adjust light levels.
+  - `config.yml` requires a restart due to async tasks at this time.
 
 ## FAQ
 
@@ -20,6 +25,8 @@ location for all online players asynchronously.
 
 At the player's head location, DynamicLights will send a block change packet to
 all players within the culling range. DynamicLights does NOT modify the world.
+
+This plugin requires ProtocolLib to be present.
 
 #### Can I change which items glow and work underwater?
 
@@ -43,7 +50,7 @@ provide verioned and shaded assets associated with this plugin.
 1. Update POM XML Plugins and Dependencies.
 2. Update POM XML Version.
 3. Build Plugin
-4. Verify in 1.17 to 1.20.1
+4. Verify in 1.17 to Latest Version
 5. Update GitHub Source Code
 6. Tag Version to Last Commit
 7. Add Release
