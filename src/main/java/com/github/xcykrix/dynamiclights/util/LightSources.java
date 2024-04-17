@@ -26,9 +26,10 @@ public class LightSources extends Stateful {
         for (Object material : levels.keySet()) {
             try {
                 int level = Integer.parseInt(levels.get(material).getStoredValue().toString());
-                this.levelOfLights.put(Material.valueOf((String)material), level);
-            } catch(Exception exception) {
-                this.pluginCommon.getLogger().warning("Unable to register level for '" + material  + "'. " + exception.getMessage());
+                this.levelOfLights.put(Material.valueOf((String) material), level);
+            } catch (Exception exception) {
+                this.pluginCommon.getLogger()
+                        .warning("Unable to register level for '" + material + "'. " + exception.getMessage());
             }
         }
         this.pluginCommon.getLogger().info("Registered " + this.levelOfLights.size() + " items for Dynamic Lights.");
@@ -38,22 +39,26 @@ public class LightSources extends Stateful {
         for (String material : submersibles) {
             try {
                 this.submersibleLights.add(Material.valueOf(material));
-            } catch(Exception exception) {
-                this.pluginCommon.getLogger().warning("Unable to register submersible for '" + material + "'. " + exception.getMessage());
+            } catch (Exception exception) {
+                this.pluginCommon.getLogger()
+                        .warning("Unable to register submersible for '" + material + "'. " + exception.getMessage());
             }
         }
-        this.pluginCommon.getLogger().info("Registered " + this.submersibleLights.size() + " items for Dynamic Submersible Lights.");
+        this.pluginCommon.getLogger()
+                .info("Registered " + this.submersibleLights.size() + " items for Dynamic Submersible Lights.");
 
         // Load Lockable Status
         List<String> lockables = lights.getStringList("lockables");
         for (String material : lockables) {
             try {
                 this.protectedLights.add(Material.valueOf(material));
-            } catch(Exception exception) {
-                this.pluginCommon.getLogger().warning("Unable to register lockable for '" + material + "'. " + exception.getMessage());
+            } catch (Exception exception) {
+                this.pluginCommon.getLogger()
+                        .warning("Unable to register lockable for '" + material + "'. " + exception.getMessage());
             }
         }
-        this.pluginCommon.getLogger().info("Registered " + this.protectedLights.size() + " items for Dynamic Lockable Lights.");
+        this.pluginCommon.getLogger()
+                .info("Registered " + this.protectedLights.size() + " items for Dynamic Lockable Lights.");
     }
 
     public boolean hasLightLevel(Material material) {

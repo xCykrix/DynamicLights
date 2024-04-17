@@ -18,9 +18,9 @@ public final class DynamicLights extends PluginCommon {
 
         // Register Configurations
         this.configurationAPI
-            .register(new Resource("config.yml", null, this.getResource("config.yml")))
-            .register(new Resource("lights.yml", null, this.getResource("lights.yml")))
-            .registerLanguageFile(this.getResource("language.yml"));
+                .register(new Resource("config.yml", null, this.getResource("config.yml")))
+                .register(new Resource("lights.yml", null, this.getResource("lights.yml")))
+                .registerLanguageFile(this.getResource("language.yml"));
 
         // Initialize Light Manager
         this.lightManager = new LightManager(this, new LightSources(this));

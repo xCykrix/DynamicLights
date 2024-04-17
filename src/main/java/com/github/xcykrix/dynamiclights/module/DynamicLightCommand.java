@@ -1,6 +1,5 @@
 package com.github.xcykrix.dynamiclights.module;
 
-
 import com.github.xcykrix.dynamiclights.module.events.PlayerHandlerEvent;
 import com.github.xcykrix.dynamiclights.util.LightManager;
 import com.github.xcykrix.dynamiclights.util.LightSources;
@@ -31,23 +30,23 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
 
     @Override
     public void initialize() {
-        pluginCommon.getServer().getPluginManager().registerEvents(new PlayerHandlerEvent(pluginCommon, this.lightManager), pluginCommon);
+        pluginCommon.getServer().getPluginManager()
+                .registerEvents(new PlayerHandlerEvent(pluginCommon, this.lightManager), pluginCommon);
     }
 
     @Subcommand("toggle")
     @CommandPermission("dynamiclights.toggle")
     @Description("Toggle rendering light sources for your client.")
     public void toggle(Player player) {
-        boolean status = this.lightManager.lightToggleStatus.getOrDefault(player.getUniqueId().toString(), this.lightManager.toggle);
+        boolean status = this.lightManager.lightToggleStatus.getOrDefault(player.getUniqueId().toString(),
+                this.lightManager.toggle);
         if (!status) {
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
-                this.languageFile.getComponentFromID("toggle-on", true)
-            );
+                    this.languageFile.getComponentFromID("toggle-on", true));
             this.lightManager.lightToggleStatus.put(player.getUniqueId().toString(), true);
         } else {
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
-                this.languageFile.getComponentFromID("toggle-off", true)
-            );
+                    this.languageFile.getComponentFromID("toggle-off", true));
             this.lightManager.lightToggleStatus.put(player.getUniqueId().toString(), false);
         }
     }
@@ -59,13 +58,11 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
         boolean status = this.lightManager.lightLockStatus.getOrDefault(player.getUniqueId().toString(), true);
         if (!status) {
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
-                this.languageFile.getComponentFromID("enable-lock", true)
-            );
+                    this.languageFile.getComponentFromID("enable-lock", true));
             this.lightManager.lightLockStatus.put(player.getUniqueId().toString(), true);
         } else {
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
-                this.languageFile.getComponentFromID("disable-lock", true)
-            );
+                    this.languageFile.getComponentFromID("disable-lock", true));
             this.lightManager.lightLockStatus.put(player.getUniqueId().toString(), false);
         }
     }
@@ -78,12 +75,10 @@ public class DynamicLightCommand extends BaseCommand implements Initialize {
             this.pluginCommon.configurationAPI.get("lights.yml").reload();
             this.lightManager.updateLightSources(new LightSources(this.pluginCommon));
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
-                this.languageFile.getComponentFromID("reload", true)
-            );
+                    this.languageFile.getComponentFromID("reload", true));
         } catch (IOException e) {
             this.pluginCommon.adventureAPI.getAudiences().player(player).sendMessage(
-                this.languageFile.getComponentFromID("reload-error", true)
-            );
+                    this.languageFile.getComponentFromID("reload-error", true));
             this.pluginCommon.getLogger().severe("Failed to reload lights.yml configuration.");
             this.pluginCommon.getLogger().severe(ExceptionUtils.getStackTrace(e));
         }

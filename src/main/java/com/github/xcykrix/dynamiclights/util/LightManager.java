@@ -59,54 +59,58 @@ public class LightManager extends Stateful implements Shutdown {
 
     public void addPlayer(Player player) {
         synchronized (this.tasks) {
-            if (this.tasks.containsKey(player.getUniqueId())) return;
-            this.tasks.put(player.getUniqueId(), this.pluginCommon.getServer().getScheduler().runTaskTimerAsynchronously(this.pluginCommon, () -> {
-                ItemStack mainHand = player.getInventory().getItemInMainHand();
-                ItemStack offHand = player.getInventory().getItemInOffHand();
+            if (this.tasks.containsKey(player.getUniqueId()))
+                return;
+            this.tasks.put(player.getUniqueId(),
+                    this.pluginCommon.getServer().getScheduler().runTaskTimerAsynchronously(this.pluginCommon, () -> {
+                        ItemStack mainHand = player.getInventory().getItemInMainHand();
+                        ItemStack offHand = player.getInventory().getItemInOffHand();
 
-                // Check Light Source Validity
-                boolean valid = this.valid(player, mainHand, offHand);
-                int lightLevel = 0;
-                if (valid) {
-                    lightLevel = lightSources.getLightLevel(offHand.getType(), mainHand.getType());
-                }
-
-                // Deploy Lighting
-                for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
-                    // Pull Last Location
-                    String locationId = player.getUniqueId() + "/" + targetPlayer.getUniqueId();
-                    Location lastLocation = this.getLastLocation(locationId);
-
-                    // Test and Remove Old Lights
-                    if (!valid) {
-                        if (lastLocation != null) {
-                            this.removeLight(targetPlayer, lastLocation);
-                            this.removeLastLocation(locationId);
+                        // Check Light Source Validity
+                        boolean valid = this.valid(player, mainHand, offHand);
+                        int lightLevel = 0;
+                        if (valid) {
+                            lightLevel = lightSources.getLightLevel(offHand.getType(), mainHand.getType());
                         }
-                        continue;
-                    }
 
-                    // Get the Next Location
-                    Location nextLocation = player.getEyeLocation();
+                        // Deploy Lighting
+                        for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
+                            // Pull Last Location
+                            String locationId = player.getUniqueId() + "/" + targetPlayer.getUniqueId();
+                            Location lastLocation = this.getLastLocation(locationId);
 
-                    // Add Light Sources
-                    if (this.lightToggleStatus.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle)) {
-                        if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
-                            if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
-                                if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
-                                    this.addLight(targetPlayer, nextLocation, lightLevel);
-                                    this.setLastLocation(locationId, nextLocation);
+                            // Test and Remove Old Lights
+                            if (!valid) {
+                                if (lastLocation != null) {
+                                    this.removeLight(targetPlayer, lastLocation);
+                                    this.removeLastLocation(locationId);
+                                }
+                                continue;
+                            }
+
+                            // Get the Next Location
+                            Location nextLocation = player.getEyeLocation();
+
+                            // Add Light Sources
+                            if (this.lightToggleStatus.getOrDefault(targetPlayer.getUniqueId().toString(),
+                                    this.toggle)) {
+                                if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
+                                    if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
+                                        if (player.getLocation()
+                                                .distance(targetPlayer.getLocation()) <= this.distance) {
+                                            this.addLight(targetPlayer, nextLocation, lightLevel);
+                                            this.setLastLocation(locationId, nextLocation);
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }
 
-                    // Remove Last Locations
-                    if (lastLocation != null && differentLocations(lastLocation, nextLocation)) {
-                        this.removeLight(targetPlayer, lastLocation);
-                    }
-                }
-            }, 50L, refresh));
+                            // Remove Last Locations
+                            if (lastLocation != null && differentLocations(lastLocation, nextLocation)) {
+                                this.removeLight(targetPlayer, lastLocation);
+                            }
+                        }
+                    }, 50L, refresh));
         }
     }
 
@@ -120,9 +124,11 @@ public class LightManager extends Stateful implements Shutdown {
     }
 
     public void addLight(Player player, Location location, int lightLevel) {
-        if (lightLevel == 0) return;
+        if (lightLevel == 0)
+            return;
         Light light = (Light) Material.LIGHT.createBlockData();
-        if (location.getWorld() == null) location.setWorld(player.getWorld());
+        if (location.getWorld() == null)
+            location.setWorld(player.getWorld());
         World world = location.getWorld();
         switch (world.getBlockAt(location).getType()) {
             case AIR, CAVE_AIR -> {
@@ -141,7 +147,8 @@ public class LightManager extends Stateful implements Shutdown {
     }
 
     public void removeLight(Player player, Location location) {
-        if (location.getWorld() == null) location.setWorld(player.getWorld());
+        if (location.getWorld() == null)
+            location.setWorld(player.getWorld());
         player.sendBlockChange(location, location.getWorld().getBlockAt(location).getBlockData());
     }
 
@@ -149,11 +156,14 @@ public class LightManager extends Stateful implements Shutdown {
         Material main = mainHand.getType();
         Material off = offHand.getType();
         boolean hasLightLevel = lightSources.hasLightLevel(off);
-        if (!hasLightLevel) hasLightLevel = lightSources.hasLightLevel(main);
-        if (!hasLightLevel) return false;
+        if (!hasLightLevel)
+            hasLightLevel = lightSources.hasLightLevel(main);
+        if (!hasLightLevel)
+            return false;
 
         Block currentLocation = player.getEyeLocation().getBlock();
-        if (currentLocation.getType() == Material.AIR || currentLocation.getType() == Material.CAVE_AIR) return true;
+        if (currentLocation.getType() == Material.AIR || currentLocation.getType() == Material.CAVE_AIR)
+            return true;
         if (currentLocation instanceof Waterlogged && ((Waterlogged) currentLocation).isWaterlogged()) {
             return false;
         }
@@ -176,9 +186,12 @@ public class LightManager extends Stateful implements Shutdown {
     }
 
     private boolean differentLocations(Location l1, Location l2) {
-        if (l1 == null || l2 == null) return true;
-        if (l1.getWorld() == null || l2.getWorld() == null) return true;
-        if (!l1.getWorld().getName().equals(l2.getWorld().getName())) return true;
+        if (l1 == null || l2 == null)
+            return true;
+        if (l1.getWorld() == null || l2.getWorld() == null)
+            return true;
+        if (!l1.getWorld().getName().equals(l2.getWorld().getName()))
+            return true;
         return l1.getBlockX() != l2.getBlockX() || l1.getBlockY() != l2.getBlockY() || l1.getBlockZ() != l2.getBlockZ();
     }
 }

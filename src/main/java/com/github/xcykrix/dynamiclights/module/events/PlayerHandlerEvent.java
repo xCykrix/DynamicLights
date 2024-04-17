@@ -21,7 +21,8 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
         super(pluginCommon);
         this.lightManager = lightManager;
         this.languageFile = this.pluginCommon.configurationAPI.getLanguageFile();
-        this.defaultState = this.pluginCommon.configurationAPI.get("config.yml").getOptionalBoolean("default-lock-state").orElse(false);
+        this.defaultState = this.pluginCommon.configurationAPI.get("config.yml")
+                .getOptionalBoolean("default-lock-state").orElse(false);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -31,11 +32,12 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
         }
 
         if (event.getHand() == EquipmentSlot.OFF_HAND) {
-            if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType())) return;
-            if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(), defaultState)) {
+            if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType()))
+                return;
+            if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(),
+                    defaultState)) {
                 pluginCommon.adventureAPI.getAudiences().player(event.getPlayer()).sendMessage(
-                    this.languageFile.getComponentFromID("prevent-block-place", true)
-                );
+                        this.languageFile.getComponentFromID("prevent-block-place", true));
                 event.setCancelled(true);
             }
         }
