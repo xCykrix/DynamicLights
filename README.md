@@ -12,7 +12,8 @@ Commands
 - /dynamiclights toggle (dynamiclights.toggle)
   - Toggle the rendering of lights for your client to reduce client impact.
 - /dynamiclights reload (dynamiclights.reload)
-  - Dynamically reload the `lights.yml` configuration to add or adjust light levels.
+  - Dynamically reload the `lights.yml` configuration to add or adjust light
+    levels.
   - `config.yml` requires a restart due to async tasks at this time.
 
 ## FAQ
