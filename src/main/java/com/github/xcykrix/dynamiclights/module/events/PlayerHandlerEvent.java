@@ -1,5 +1,9 @@
 package com.github.xcykrix.dynamiclights.module.events;
 
+import com.github.xcykrix.dynamiclights.util.LightManager;
+import com.github.xcykrix.plugincommon.PluginCommon;
+import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
+import com.github.xcykrix.plugincommon.extendables.Stateful;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -8,12 +12,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import com.github.xcykrix.dynamiclights.util.LightManager;
-import com.github.xcykrix.plugincommon.PluginCommon;
-import com.github.xcykrix.plugincommon.api.helper.configuration.LanguageFile;
-import com.github.xcykrix.plugincommon.extendables.Stateful;
-
 public class PlayerHandlerEvent extends Stateful implements Listener {
+
     private final LightManager lightManager;
     private final LanguageFile languageFile;
     private final boolean defaultState;
@@ -23,7 +23,7 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
         this.lightManager = lightManager;
         this.languageFile = this.pluginCommon.configurationAPI.getLanguageFile();
         this.defaultState = this.pluginCommon.configurationAPI.get("config.yml")
-                .getOptionalBoolean("default-lock-state").orElse(false);
+            .getOptionalBoolean("default-lock-state").orElse(false);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -33,12 +33,14 @@ public class PlayerHandlerEvent extends Stateful implements Listener {
         }
 
         if (event.getHand() == EquipmentSlot.OFF_HAND) {
-            if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType()))
+            if (!this.lightManager.lightSources.isProtectedLight(event.getItemInHand().getType())) {
                 return;
-            if (this.lightManager.lightLockStatus.getOrDefault(event.getPlayer().getUniqueId().toString(),
-                    defaultState)) {
+            }
+            if (this.lightManager.lightLockStatus.getOrDefault(
+                event.getPlayer().getUniqueId().toString(),
+                defaultState)) {
                 pluginCommon.adventureAPI.getAudiences().player(event.getPlayer()).sendMessage(
-                        this.languageFile.getComponentFromID("prevent-block-place", true));
+                    this.languageFile.getComponentFromID("prevent-block-place", true));
                 event.setCancelled(true);
             }
         }
