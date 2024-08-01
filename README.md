@@ -48,6 +48,8 @@ or blocks without collision.
 This plugin is based on the PluginCommon API. Updates to PluginCommon will
 provide verioned and shaded assets associated with this plugin.
 
+Reference GH Actions: https://www.schakko.de/2020/12/19/using-github-workflow-with-maven-dependencies-from-a-private-github-package-registry/
+
 1. Update POM XML Plugins and Dependencies.
 2. Update POM XML Version.
 3. Build Plugin

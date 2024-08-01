@@ -19,5 +19,11 @@ jobs:
                   java-version: '17'
                   distribution: 'adopt'
                   architecture: x64
+                  server-id: github
+                  server-username: GITHUB_USER_REF
+                  server-password: GITHUB_TOKEN_REF
             - name: Compile
-              run: "mvn --batch-mode --update-snapshots clean package"
+              run: "mvn -B -Pgithub --update-snapshots clean package --file pom.xml"
+              env:
+                GITHUB_USER_REF: ${{ secrets.GH_USERNAME }}
+                GITHUB_TOKEN_REF: ${{ secrets.GH_PAT }}
