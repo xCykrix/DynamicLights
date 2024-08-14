@@ -16,13 +16,13 @@ chat-prefix: "<dark_gray>[</dark_gray><gold>DynamicLights</gold><dark_gray>]</da
 
 # Language Index
 language:
-    prevent-block-place: "<prefix> <gray>Light locking mode is currently enabled. You must sneak to place light sources from your Off Hand. This can be toggled with \"/dl lock\".</gray>"
-    enable-lock: "<prefix> <gray>Enabled light lock mode.</gray>"
-    disable-lock: "<prefix> <gray>Disabled light lock mode.</gray>"
-    toggle-on: "<prefix> <gray>Light rendering enabled for client.</gray>"
-    toggle-off: "<prefix> <gray>Light rendering disabled for client.</gray>"
-    reload: "<prefix> <gray>Reloaded lights.yml configuration.</gray>"
-    reload-error: "<prefix> <red>Failed to reload lights.yml configuration. Check Console.</red><gray>.</gray>"
+  prevent-block-place: "<prefix> <gray>Light locking mode is currently enabled. You must sneak to place light sources from your Off Hand. This can be toggled with \"/dl lock\".</gray>"
+  enable-lock: "<prefix> <gray>Enabled light lock mode.</gray>"
+  disable-lock: "<prefix> <gray>Disabled light lock mode.</gray>"
+  toggle-on: "<prefix> <gray>Light rendering enabled for client.</gray>"
+  toggle-off: "<prefix> <gray>Light rendering disabled for client.</gray>"
+  reload: "<prefix> <gray>Reloaded lights.yml configuration.</gray>"
+  reload-error: "<prefix> <red>Failed to reload lights.yml configuration. Check Console.</red><gray>.</gray>"
 
 # DO NOT EDIT THE VERSION. Manual edits may corrupt or reset configuration files.
 #

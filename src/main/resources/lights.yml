@@ -4,33 +4,33 @@
 
 # Map List of Light Levels
 levels:
-    LANTERN: 13
-    SOUL_LANTERN: 13
-    TORCH: 11
-    SOUL_TORCH: 11
-    REDSTONE_TORCH: 7
-    GLOWSTONE: 15
-    SHROOMLIGHT: 15
-    SEA_LANTERN: 15
-    OCHRE_FROGLIGHT: 15
-    PEARLESCENT_FROGLIGHT: 15
-    VERDANT_FROGLIGHT: 15
+  LANTERN: 13
+  SOUL_LANTERN: 13
+  TORCH: 11
+  SOUL_TORCH: 11
+  REDSTONE_TORCH: 7
+  GLOWSTONE: 15
+  SHROOMLIGHT: 15
+  SEA_LANTERN: 15
+  OCHRE_FROGLIGHT: 15
+  PEARLESCENT_FROGLIGHT: 15
+  VERDANT_FROGLIGHT: 15
 
 # String List of Submersible Materials
 submersibles:
-    - "GLOWSTONE"
-    - "SHROOMLIGHT"
-    - "SEA_LANTERN"
-    - "OCHRE_FROGLIGHT"
-    - "PEARLESCENT_FROGLIGHT"
-    - "VERDANT_FROGLIGHT"
+  - "GLOWSTONE"
+  - "SHROOMLIGHT"
+  - "SEA_LANTERN"
+  - "OCHRE_FROGLIGHT"
+  - "PEARLESCENT_FROGLIGHT"
+  - "VERDANT_FROGLIGHT"
 
 # String List of Lockable Materials
 lockables:
-    - "TORCH"
-    - "SOUL_TORCH"
-    - "LANTERN"
-    - "SOUL_LANTERN"
+  - "TORCH"
+  - "SOUL_TORCH"
+  - "LANTERN"
+  - "SOUL_LANTERN"
 
 # DO NOT EDIT THE VERSION. Manual edits may corrupt or reset configuration files.
 #
