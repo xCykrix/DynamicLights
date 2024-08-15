@@ -2,22 +2,22 @@ name: 'DynamicLights'
 description: 'Emit Light from Held Items using the 1.17 Light Blocks.'
 website: 'https://www.spigotmc.org/resources/dynamiclights.110707/'
 author: 'xCykrix'
-version: '${project.version}'
+version: '1.0-SNAPSHOT'
 
-main: com.github.xcykrix.dynamiclights.DynamicLights
-api-version: '1.18'
+main: github.xCykrix.dynamicLights.DynamicLights
+api-version: '1.17'
 load: 'POSTWORLD'
 
 depend:
-    - 'ProtocolLib'
+  - 'ProtocolLib'
 
 permissions:
-    dynamiclights.lock:
-        description: "Toggle placing light sources from your off hand."
-        default: true
-    dynamiclights.toggle:
-        description: "Toggle rendering of light sources for your client."
-        default: true
-    dynamiclights.reload:
-        description: "Reload the lights.yml configuration file."
-        default: false
+  dynamiclights.lock:
+    description: "Toggle placing light sources from your off hand."
+    default: true
+  dynamiclights.toggle:
+    description: "Toggle rendering of light sources for your client."
+    default: true
+  dynamiclights.reload:
+    description: "Reload the lights.yml configuration file."
+    default: op
