@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "github.xCykrix"
-version = "1.0-SNAPSHOT"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -35,7 +35,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:spigotdevkit:1.0.0")
+    implementation("github.xCykrix:spigotdevkit:1.0.1")
 }
 
 // Target Java Build (Java 17 - Minecraft 1.17.x)
