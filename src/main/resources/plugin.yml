@@ -20,4 +20,4 @@ permissions:
     default: true
   dynamiclights.reload:
     description: "Reload the lights.yml configuration file."
-    default: false
+    default: op

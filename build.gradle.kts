@@ -23,15 +23,19 @@ repositories {
         url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     }
 
-    // Flatdir
-    flatDir {
-        dirs("../SpigotDevkit/build/libs")
+    // Upstream GitHub Packages
+    maven {
+        url = uri("https://maven.pkg.github.com/xCykrix/SpigotDevkit")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
     }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:SpigotDevkit:1.0-0-SNAPSHOT-all")
+    implementation("github.xCykrix:spigotdevkit:1.0.0")
 }
 
 // Target Java Build (Java 17 - Minecraft 1.17.x)
