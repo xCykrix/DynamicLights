@@ -23,3 +23,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Compile
         run: ./gradlew shadowJar
+        env:
+          GITHUB_ACTOR: ${{ secrets.GH_USERNAME }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
