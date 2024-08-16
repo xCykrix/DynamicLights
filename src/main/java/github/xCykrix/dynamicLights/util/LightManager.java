@@ -1,5 +1,7 @@
 package github.xCykrix.dynamicLights.util;
 
+import dist.xCykrix.shade.dev.jorel.commandapi.CommandAPIBukkit;
+import dist.xCykrix.shade.org.h2.mvstore.MVStore;
 import github.xCykrix.DevkitPlugin;
 import github.xCykrix.dynamicLights.DynamicLights;
 import github.xCykrix.extendable.DevkitFullState;

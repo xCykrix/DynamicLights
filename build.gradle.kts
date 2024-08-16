@@ -37,7 +37,9 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:spigotdevkit:1.0.3")
+    implementation("github.xCykrix:spigotdevkit:1.0.4") {
+        isTransitive = false
+    }
 }
 
 // Shadow Task
