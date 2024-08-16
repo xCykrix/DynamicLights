@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("io.github.goooler.shadow") version "8.1.8"
     id("java")
@@ -35,11 +37,16 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:spigotdevkit:1.0.1")
+    implementation("github.xCykrix:spigotdevkit:1.0.3")
 }
 
-// Target Java Build (Java 17 - Minecraft 1.17.x)
-val targetJavaVersion = 17
+// Shadow Task
+tasks.named<ShadowJar>("shadowJar") {
+    archiveClassifier = null;
+}
+
+// Target Java Build (Java 16 - Minecraft 1.17.x)
+val targetJavaVersion = 16
 java {
     val javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

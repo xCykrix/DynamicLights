@@ -1,11 +1,11 @@
 package github.xCykrix.dynamicLights.command;
 
+import dist.xCykrix.shade.dev.jorel.commandapi.CommandAPICommand;
+import dist.xCykrix.shade.org.apache.commons.lang3.exception.ExceptionUtils;
 import github.xCykrix.DevkitPlugin;
 import github.xCykrix.dynamicLights.DynamicLights;
 import github.xCykrix.extendable.DevkitSimpleState;
 import github.xCykrix.plugin.CommandPlugin;
-import github.xCykrix.shade.dev.jorel.commandapi.CommandAPICommand;
-import github.xCykrix.shade.org.apache.commons.lang3.exception.ExceptionUtils;
 import java.io.IOException;
 import java.util.Objects;
 
