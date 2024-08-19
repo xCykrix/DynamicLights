@@ -2,6 +2,8 @@
 
 Emit Light from Held Items using the 1.17 Light Blocks in Spigot/Paper Servers.
 
+Discord: https://discord.gg/RHJQFPgbke
+
 ## Usage/Examples
 
 Commands
