@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "github.xCykrix"
-version = "1.1.0"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
@@ -29,15 +29,15 @@ repositories {
     maven {
         url = uri("https://maven.pkg.github.com/xCykrix/SpigotDevkit")
         credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
+            username = project.findProperty("GITHUB_ACTOR").toString() ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("GITHUB_TOKEN").toString() ?: System.getenv("GITHUB_TOKEN")
         }
     }
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:spigotdevkit:1.0.4") {
+    compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
+    implementation("github.xCykrix:spigotdevkit:1.0.5") {
         isTransitive = false
     }
 }

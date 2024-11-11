@@ -13,9 +13,7 @@ import github.xCykrix.plugin.H2MVStorePlugin;
 import github.xCykrix.plugin.ProtocolLibPlugin;
 import github.xCykrix.records.Resource;
 
-@SuppressWarnings({"unused", "Called by Spigot API."})
 public final class DynamicLights extends DevkitPlugin {
-
   // Core APIs.
   public static ConfigurationPlugin configuration;
   public static AdventurePlugin adventure;

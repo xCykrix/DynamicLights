@@ -35,7 +35,7 @@ This plugin requires ProtocolLib to be present.
 
 Yes! In the "lights.yml" file you can add any item from
 https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html exactly as it
-appears to set custom light levels. You can also make them work underwater!
+appears to set custom light levels. You can also make them work underwater and on worn items.
 
 #### Lights flickers in Blocks like Tall Grass, Sea Grass, and Kelp. Why?
 

@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,java,gradle,kotlin
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,java,gradle,kotlin
 
+### Custom ###
+gradle.properties
+
 ### Java ###
 # Compiled class file
 *.class

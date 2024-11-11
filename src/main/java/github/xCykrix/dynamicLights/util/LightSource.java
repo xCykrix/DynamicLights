@@ -47,10 +47,12 @@ public class LightSource extends DevkitFullState {
       try {
         this.submersibleLights.add(Material.valueOf(material));
       } catch (Exception exception) {
-        this.plugin.getLogger().warning("Unable to register submersible for '" + material + "'. " + exception.getMessage());
+        this.plugin.getLogger()
+            .warning("Unable to register submersible for '" + material + "'. " + exception.getMessage());
       }
     }
-    this.plugin.getLogger().info("Registered " + this.submersibleLights.size() + " items for Dynamic Submersible Lights.");
+    this.plugin.getLogger()
+        .info("Registered " + this.submersibleLights.size() + " items for Dynamic Submersible Lights.");
 
     // Register Lockable Lights
     this.lockedLights.clear();
@@ -59,7 +61,8 @@ public class LightSource extends DevkitFullState {
       try {
         this.lockedLights.add(Material.valueOf(material));
       } catch (Exception exception) {
-        this.plugin.getLogger().warning("Unable to register lockable for '" + material + "'. " + exception.getMessage());
+        this.plugin.getLogger()
+            .warning("Unable to register lockable for '" + material + "'. " + exception.getMessage());
       }
     }
     this.plugin.getLogger().info("Registered " + this.lockedLights.size() + " items for Dynamic Locked Lights.");
@@ -76,12 +79,28 @@ public class LightSource extends DevkitFullState {
     return levelOfLights.containsKey(material);
   }
 
-  public Integer getLightLevel(Material material, Material fallback) {
-    return levelOfLights.getOrDefault(material, levelOfLights.getOrDefault(fallback, 0));
+  public Integer getLightLevel(Material mainHand, Material offHand, Material helmet, Material chestplate,
+      Material legging, Material boot) {
+    int level = 0;
+    level = levelOfLights.getOrDefault(boot, level);
+    level = levelOfLights.getOrDefault(legging, level);
+    level = levelOfLights.getOrDefault(chestplate, level);
+    level = levelOfLights.getOrDefault(helmet, level);
+    level = levelOfLights.getOrDefault(offHand, level);
+    level = levelOfLights.getOrDefault(mainHand, level);
+    return level;
   }
 
-  public boolean isSubmersible(Material offHand, Material mainHand) {
-    return submersibleLights.contains(offHand) || submersibleLights.contains(mainHand);
+  public boolean isSubmersible(Material mainHand, Material offHand, Material helmet, Material chestplate,
+      Material legging, Material boot) {
+    boolean submersible = false;
+    submersible = submersibleLights.contains(boot) ? true : submersible;
+    submersible = submersibleLights.contains(legging) ? true : submersible;
+    submersible = submersibleLights.contains(chestplate) ? true : submersible;
+    submersible = submersibleLights.contains(helmet) ? true : submersible;
+    submersible = submersibleLights.contains(offHand) ? true : submersible;
+    submersible = submersibleLights.contains(mainHand) ? true : submersible;
+    return submersible;
   }
 
   public boolean isProtectedLight(Material offHand) {

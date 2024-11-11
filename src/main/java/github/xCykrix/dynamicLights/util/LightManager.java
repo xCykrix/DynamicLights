@@ -1,7 +1,5 @@
 package github.xCykrix.dynamicLights.util;
 
-import dist.xCykrix.shade.dev.jorel.commandapi.CommandAPIBukkit;
-import dist.xCykrix.shade.org.h2.mvstore.MVStore;
 import github.xCykrix.DevkitPlugin;
 import github.xCykrix.dynamicLights.DynamicLights;
 import github.xCykrix.extendable.DevkitFullState;
@@ -65,40 +63,47 @@ public class LightManager extends DevkitFullState {
       if (this.tasks.containsKey(player.getUniqueId())) {
         return;
       }
-      this.tasks.put(player.getUniqueId(), this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
-        ItemStack mainHand = player.getInventory().getItemInMainHand();
-        ItemStack offHand = player.getInventory().getItemInOffHand();
-        boolean valid = this.valid(player, mainHand, offHand);
-        int lightLevel = 0;
-        if (valid) {
-          lightLevel = source.getLightLevel(offHand.getType(), mainHand.getType());
-        }
-        for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
-          String locationId = player.getUniqueId() + "/" + targetPlayer.getUniqueId();
-          Location lastLocation = this.getLastLocation(locationId);
-          if (!valid) {
-            if (lastLocation != null) {
-              this.removeLight(targetPlayer, lastLocation);
-              this.removeLastLocation(locationId);
+      this.tasks.put(player.getUniqueId(),
+          this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+            Material mainHand = getMaterialOrAir(player.getInventory().getItemInMainHand());
+            Material offHand = getMaterialOrAir(player.getInventory().getItemInOffHand());
+            Material helmet = getMaterialOrAir(player.getInventory().getHelmet());
+            Material chestplate = getMaterialOrAir(player.getInventory().getChestplate());
+            Material legging = getMaterialOrAir(player.getInventory().getLeggings());
+            Material boot = getMaterialOrAir(player.getInventory().getBoots());
+            boolean valid = this.valid(player, mainHand, offHand, helmet,
+                chestplate, legging, boot);
+            int lightLevel = 0;
+            if (valid) {
+              lightLevel = source.getLightLevel(mainHand, offHand, helmet,
+                  chestplate, legging, boot);
             }
-            continue;
-          }
-          Location nextLocation = player.getEyeLocation();
-          if (this.toggles.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle)) {
-            if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
-              if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
-                if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
-                  this.addLight(targetPlayer, nextLocation, lightLevel);
-                  this.setLastLocation(locationId, nextLocation);
+            for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
+              String locationId = player.getUniqueId() + "/" + targetPlayer.getUniqueId();
+              Location lastLocation = this.getLastLocation(locationId);
+              if (!valid) {
+                if (lastLocation != null) {
+                  this.removeLight(targetPlayer, lastLocation);
+                  this.removeLastLocation(locationId);
+                }
+                continue;
+              }
+              Location nextLocation = player.getEyeLocation();
+              if (this.toggles.getOrDefault(targetPlayer.getUniqueId().toString(), this.toggle)) {
+                if (lightLevel > 0 && differentLocations(lastLocation, nextLocation)) {
+                  if (player.getWorld().getName().equals(targetPlayer.getWorld().getName())) {
+                    if (player.getLocation().distance(targetPlayer.getLocation()) <= this.distance) {
+                      this.addLight(targetPlayer, nextLocation, lightLevel);
+                      this.setLastLocation(locationId, nextLocation);
+                    }
+                  }
                 }
               }
+              if (lastLocation != null && differentLocations(lastLocation, nextLocation)) {
+                this.removeLight(targetPlayer, lastLocation);
+              }
             }
-          }
-          if (lastLocation != null && differentLocations(lastLocation, nextLocation)) {
-            this.removeLight(targetPlayer, lastLocation);
-          }
-        }
-      }, 50L, refresh));
+          }, 50L, refresh));
     }
   }
 
@@ -127,7 +132,7 @@ public class LightManager extends DevkitFullState {
       }
       case WATER -> {
         light.setWaterlogged(true);
-        light.setLevel(lightLevel - 2);
+        light.setLevel(lightLevel);
       }
       default -> {
       }
@@ -142,13 +147,16 @@ public class LightManager extends DevkitFullState {
     player.sendBlockChange(location, location.getWorld().getBlockAt(location).getBlockData());
   }
 
-  public boolean valid(Player player, ItemStack mainHand, ItemStack offHand) {
-    Material main = mainHand.getType();
-    Material off = offHand.getType();
-    boolean hasLightLevel = source.hasLightLevel(off);
-    if (!hasLightLevel) {
-      hasLightLevel = source.hasLightLevel(main);
-    }
+  public boolean valid(Player player, Material mainHand, Material offHand, Material helmet, Material chestplate,
+      Material legging, Material boot) {
+    boolean hasLightLevel = false;
+    hasLightLevel = source.hasLightLevel(mainHand) ? true : hasLightLevel;
+    hasLightLevel = source.hasLightLevel(offHand) ? true : hasLightLevel;
+    hasLightLevel = source.hasLightLevel(helmet) ? true : hasLightLevel;
+    hasLightLevel = source.hasLightLevel(chestplate) ? true : hasLightLevel;
+    hasLightLevel = source.hasLightLevel(legging) ? true : hasLightLevel;
+    hasLightLevel = source.hasLightLevel(boot) ? true : hasLightLevel;
+
     if (!hasLightLevel) {
       return false;
     }
@@ -160,7 +168,7 @@ public class LightManager extends DevkitFullState {
       return false;
     }
     if (currentLocation.getType() == Material.WATER) {
-      return source.isSubmersible(off, main);
+      return source.isSubmersible(mainHand, offHand, helmet, chestplate, legging, boot);
     }
     return false;
   }
@@ -188,5 +196,12 @@ public class LightManager extends DevkitFullState {
       return true;
     }
     return l1.getBlockX() != l2.getBlockX() || l1.getBlockY() != l2.getBlockY() || l1.getBlockZ() != l2.getBlockZ();
+  }
+
+  private Material getMaterialOrAir(ItemStack item) {
+    if (item == null)
+      return Material.AIR;
+    else
+      return item.getType();
   }
 }
