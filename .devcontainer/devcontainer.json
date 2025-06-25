@@ -1,18 +1,44 @@
 {
-	"name": "java-gradle",
-	"image": "mcr.microsoft.com/devcontainers/java:21-bookworm",
-	"customizations": {
-		"vscode": {
-			"settings": {}
-		}
-	},
-	"features": {
-		"ghcr.io/devcontainers/features/java:1": {
-			"version": "21",
-			"jdkDistro": "tem",
-			"installMaven": "true",
-			"installGradle": "true",
-			"gradleVersion": "8.11"
-		}
-	}
+    "name": "java-gradle",
+    "image": "mcr.microsoft.com/devcontainers/java:21-bookworm",
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "21",
+            "jdkDistro": "tem",
+            "installMaven": "true",
+            "installGradle": "true",
+            "gradleVersion": "8.11"
+        }
+    },
+    "customizations": {
+        "settings": {
+            "remote.containers.copyGitConfig": true
+        },
+        "vscode": {
+            "settings": {
+                "editor.formatOnSave": true,
+                "fileNestingUpdater.autoUpdate": true,
+                "fileNestingUpdater.autoUpdateInterval": 720,
+                "fileNestingUpdater.promptOnAutoUpdate": false,
+                "fileNestingUpdater.upstreamRepo": "antfu/vscode-file-nesting-config",
+                "fileNestingUpdater.upstreamBranch": "main",
+            }
+        },
+        "extensions": [
+            // Editor
+            "editorconfig.editorconfig",
+            // Utilities
+            "aaron-bond.better-comments",
+            "ms-azuretools.vscode-containers",
+            "christian-kohler.path-intellisense",
+            "antfu.file-nesting",
+            // IntelliCode
+            "VisualStudioExptTeam.vscodeintellicode",
+            "VisualStudioExptTeam.vscodeintellicode-insiders",
+            "VisualStudioExptTeam.vscodeintellicode-completions",
+            "VisualStudioExptTeam.intellicode-api-usage-examples",
+            "ms-vsliveshare.vsliveshare",
+        ],
+    },
+    "remoteUser": "root"
 }

@@ -3,6 +3,7 @@
 
 ### Custom ###
 gradle.properties
+target
 
 ### Java ###
 # Compiled class file
