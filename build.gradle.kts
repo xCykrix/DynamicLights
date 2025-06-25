@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "github.xCykrix"
-version = "1.2.2"
+version = "1.2.3"
 
 repositories {
     mavenCentral()
@@ -36,8 +36,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:spigotdevkit:1.0.7") {
+    compileOnly("org.spigotmc:spigot-api:1.21.6-R0.1-SNAPSHOT")
+    implementation("github.xCykrix:spigotdevkit:1.0.8") {
         isTransitive = false
     }
 }

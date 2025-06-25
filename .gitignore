@@ -4,6 +4,7 @@
 ### Custom ###
 gradle.properties
 target
+mock``
 
 ### Java ###
 # Compiled class file

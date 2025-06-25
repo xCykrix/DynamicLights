@@ -21,7 +21,7 @@
                 "fileNestingUpdater.autoUpdateInterval": 720,
                 "fileNestingUpdater.promptOnAutoUpdate": false,
                 "fileNestingUpdater.upstreamRepo": "antfu/vscode-file-nesting-config",
-                "fileNestingUpdater.upstreamBranch": "main",
+                "fileNestingUpdater.upstreamBranch": "main"
             }
         },
         "extensions": [
@@ -37,8 +37,8 @@
             "VisualStudioExptTeam.vscodeintellicode-insiders",
             "VisualStudioExptTeam.vscodeintellicode-completions",
             "VisualStudioExptTeam.intellicode-api-usage-examples",
-            "ms-vsliveshare.vsliveshare",
-        ],
+            "ms-vsliveshare.vsliveshare"
+        ]
     },
     "remoteUser": "root"
 }
