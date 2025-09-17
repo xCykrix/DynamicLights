@@ -2,14 +2,11 @@ name: 'DynamicLights'
 description: 'Emit Light from Held Items using the 1.17 Light Blocks.'
 website: 'https://www.spigotmc.org/resources/dynamiclights.110707/'
 author: 'xCykrix'
-version: '1.2.3'
+version: '1.3.0-MULTI-VERSION'
 
 main: github.xCykrix.dynamicLights.DynamicLights
 api-version: '1.17'
 load: 'POSTWORLD'
-
-depend:
-  - 'ProtocolLib'
 
 permissions:
   dynamiclights.lock:

@@ -7,18 +7,10 @@ plugins {
 }
 
 group = "github.xCykrix"
-version = "1.2.3"
+version = "1.3.0-FOR-MC1.20"
 
 repositories {
     mavenCentral()
-
-    // Core Repositories
-    maven {
-        url = uri("https://jitpack.io/")
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/content/groups/public/")
-    }
 
     // Spigot Repository
     maven {
@@ -37,7 +29,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.6-R0.1-SNAPSHOT")
-    implementation("github.xCykrix:spigotdevkit:1.0.8") {
+    implementation("github.xCykrix:spigotdevkit:1.1.0-CAPI1.20") {
         isTransitive = false
     }
 }

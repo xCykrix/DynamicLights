@@ -29,8 +29,6 @@ location for all online players asynchronously.
 At the player's head location, DynamicLights will send a block change packet to
 all players within the culling range. DynamicLights does NOT modify the world.
 
-This plugin requires ProtocolLib to be present.
-
 #### Can I change which items glow and work underwater?
 
 Yes! In the "lights.yml" file you can add any item from

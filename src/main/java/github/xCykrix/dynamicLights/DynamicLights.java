@@ -10,7 +10,6 @@ import github.xCykrix.plugin.AdventurePlugin;
 import github.xCykrix.plugin.CommandPlugin;
 import github.xCykrix.plugin.ConfigurationPlugin;
 import github.xCykrix.plugin.H2MVStorePlugin;
-import github.xCykrix.plugin.ProtocolLibPlugin;
 import github.xCykrix.records.Resource;
 
 public final class DynamicLights extends DevkitPlugin {
@@ -20,7 +19,6 @@ public final class DynamicLights extends DevkitPlugin {
   public static CommandPlugin command;
 
   // Third Party APIs.
-  public static ProtocolLibPlugin protocol;
   public static H2MVStorePlugin h2;
 
   // Internal APIs.
@@ -33,8 +31,6 @@ public final class DynamicLights extends DevkitPlugin {
     configuration = this.register(new ConfigurationPlugin(this));
     adventure = this.register(new AdventurePlugin(this));
     command = this.register(new CommandPlugin(this));
-
-    protocol = this.register(new ProtocolLibPlugin(this));
     h2 = this.register(new H2MVStorePlugin(this));
   }
 
