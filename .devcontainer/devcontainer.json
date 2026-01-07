@@ -40,5 +40,9 @@
             "ms-vsliveshare.vsliveshare"
         ]
     },
-    "remoteUser": "root"
+    "remoteUser": "root",
+    "containerUser": "root",
+    "postCreateCommand": {
+        "safe": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+    },
 }
